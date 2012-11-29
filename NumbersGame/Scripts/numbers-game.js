@@ -85,11 +85,12 @@ function makeMove(row, col) {
     }
 
     if (checkAdjacentCells(row, col)) {
-        swapEmptyCell(row, col);
         moves.push([row, col]);
+        swapEmptyCell(row, col);
     }
 
     if (isGameFinished()) {
+        alert("Winner!");
         $('#dialog-form').dialog('open');
     }
 }
@@ -140,12 +141,12 @@ function swapEmptyCell(row, col) {
             if (gameBoard[i][j] === 0) {
                 gameBoard[i][j] = gameBoard[row][col];
                 gameBoard[row][col] = 0;
+
+                refreshGameBoard();
                 return;
             }
         }
     }
-
-    refreshGameBoard();
 }
 
 function checkRegexp(o, regexp, n) {
