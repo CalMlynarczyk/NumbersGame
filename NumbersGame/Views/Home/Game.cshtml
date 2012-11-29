@@ -32,7 +32,7 @@
     <div id="dialog-form" title="Submit Score">
         <form id="score-form"  name="score" method="post" action="@Url.Action("SubmitScore")">
             <label for="name">Name</label>
-            <input type="text" name="name" id="name" class="text ui-widget-content ui-corner-all" />
+            <input type="text" name="name" id="name" class="text ui-widget-content ui-corner-all" maxlength="20" />
             <input type="hidden" name="startingPosition" />
             <input type="hidden" name="moves" />
             <p class="validateTips" style="color: Red;"></p>
