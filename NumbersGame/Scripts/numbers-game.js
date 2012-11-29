@@ -10,7 +10,7 @@
             "Submit": function () {
                 $("#name").removeClass("ui-state-error");
 
-                if (checkRegexp($("#name"), /^[0-9A-Za-z_]+$/i, "Name may consist of letters and numbers.")) {
+                if (checkRegexp($("#name"), /^[0-9A-Za-z_]{1,20}$/, "Name may consist of letters, numbers, and underscores.")) {
                     //submitScore($("#name").val());
                     document.score.startingPosition.value = startingPosition;
                     document.score.moves.value = moves;
@@ -48,7 +48,6 @@ function newGame() {
 
     startingPosition = gameBoard.slice(0);
     moves = [];
-    //moves = [[1, 0]];
     refreshGameBoard();
 }
 
@@ -88,13 +87,9 @@ function makeMove(row, col) {
     if (checkAdjacentCells(row, col)) {
         swapEmptyCell(row, col);
         moves.push([row, col]);
-        refreshGameBoard();
     }
 
     if (isGameFinished()) {
-        // TODO: Display high score form
-        alert("Winner!");
-        console.log(moves);
         $('#dialog-form').dialog('open');
     }
 }
@@ -149,6 +144,8 @@ function swapEmptyCell(row, col) {
             }
         }
     }
+
+    refreshGameBoard();
 }
 
 function checkRegexp(o, regexp, n) {

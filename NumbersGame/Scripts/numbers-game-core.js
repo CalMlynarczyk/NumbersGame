@@ -27,6 +27,7 @@ function isGameFinished() {
 }
 
 function areArraysEqual(a, b) {
+    // Assume the arrays are of equal dimensions
     for (var i = 0; i < a.length; i++) {
         for (var j = 0; j < a[i].length; j++) {
             if (a[i][j] !== b[i][j]) {
@@ -67,4 +68,6 @@ function swapEmptyCell(row, col) {
             }
         }
     }
+
+    refreshGameBoard();
 }
