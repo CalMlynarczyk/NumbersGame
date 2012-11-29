@@ -9,7 +9,7 @@ namespace NumbersGame.Controllers
 {
     public class HomeController : Controller
     {
-        private NumbersGameEntities db = new NumbersGameEntities();
+        private NumbersGameContext db = new NumbersGameContext();
         
         //
         // GET: /Home/
@@ -50,7 +50,7 @@ namespace NumbersGame.Controllers
 
         public ActionResult HighScores()
         {
-            return View(db.Games.OrderBy(g => g.Moves.Length).ToList());
+            return View(db.Games.OrderBy(g => g.GetScore()).ToList());
         }
     }
 }
