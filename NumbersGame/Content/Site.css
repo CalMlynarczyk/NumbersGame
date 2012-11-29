@@ -1,0 +1,127 @@
+﻿body {
+    font-size: .85em;
+    font-family: "Segoe UI", Verdana, Helvetica, Sans-Serif;
+    color: #232323;
+    background-color: #fff;
+}
+
+header, footer, nav, section {
+    display: block;
+}
+
+#content {
+    margin-top: 200px;
+}
+
+
+/* Styles for basic forms
+-----------------------------------------------------------*/
+fieldset {
+    border: 1px solid #ddd;
+    padding: 0 1.4em 1.4em 1.4em;
+    margin: 0 0 1.5em 0;
+}
+
+legend {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+textarea {
+    min-height: 75px;
+}
+
+.editor-label {
+    margin: 1em 0 0 0;
+}
+
+.editor-field {
+    margin: 0.5em 0 0 0;
+}
+
+
+/* Styles for validation helpers
+-----------------------------------------------------------*/
+.field-validation-error {
+    color: #f00;
+}
+
+.field-validation-valid {
+    display: none;
+}
+
+.input-validation-error {
+    border: 1px solid #f00;
+    background-color: #fee;
+}
+
+.validation-summary-errors {
+    font-weight: bold;
+    color: #f00;
+}
+
+.validation-summary-valid {
+    display: none;
+}
+
+
+/* NumbersGame Styles
+------------------------------------------------------------*/
+
+#game {
+    width: 200px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.controls {
+    margin: 40px auto;
+}
+
+.view-controls {
+    margin: 10px auto;
+}
+
+.game-board {
+    
+}
+
+.game-board-table {
+    border-collapse: collapse;
+    cursor: pointer;
+}
+
+.game-board-table td {
+    margin: 0;
+    width: 60px;
+    height: 60px;
+    font-size: 2em;
+    border: 2px solid #000;
+    vertical-align: middle;
+}
+
+#high-scores {
+    width: 450px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+#high-scores-table th, #high-scores-table td {
+    width: 150px;
+    overflow: hidden;
+}
+
+.link-button {
+    padding: 4px 10px;
+    border: 1px solid #000;
+    border-radius: 4px;
+    color: #111;
+    text-decoration: none;
+    background: #ddd;
+}
+
+.link-button:active {
+    padding: 5px 9px 3px 11px;
+    position: relative;
+    top: 1px;
+}
