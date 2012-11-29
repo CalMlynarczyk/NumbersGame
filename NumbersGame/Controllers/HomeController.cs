@@ -50,7 +50,7 @@ namespace NumbersGame.Controllers
 
         public ActionResult HighScores()
         {
-            return View(db.Games.OrderBy(g => g.GetScore()).ToList());
+            return View(db.Games.OrderBy(g => g.Moves.Count).ToList());
         }
     }
 }
