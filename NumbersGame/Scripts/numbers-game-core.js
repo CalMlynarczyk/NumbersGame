@@ -64,10 +64,11 @@ function swapEmptyCell(row, col) {
             if (gameBoard[i][j] === 0) {
                 gameBoard[i][j] = gameBoard[row][col];
                 gameBoard[row][col] = 0;
+                refreshGameBoard();
                 return;
             }
         }
     }
 
-    refreshGameBoard();
+    
 }
