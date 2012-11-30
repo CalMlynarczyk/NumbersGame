@@ -46,6 +46,8 @@ function newGame() {
         gameBoard = generateStartingPositions();
     } while (isGameFinished());
 
+    findZeroElement();
+
     startingPosition = gameBoard.slice(0);
     moves = [];
     refreshGameBoard();
@@ -62,7 +64,10 @@ function generateStartingPositions() {
         var index = Math.floor(Math.random() * values.length);
         var value = values[index];
 
-        array[Math.floor(i / 3)][i % 3] = value;
+        var row = Math.floor(i / 3);
+        var col = i % 3;
+
+        array[row][col] = value;
         values.splice(index, 1);
     }
 
@@ -116,37 +121,19 @@ function areArraysEqual(a, b) {
 }
 
 function checkAdjacentCells(row, col) {
-// TODO: Do not use exceptions
-    try {
-        return (gameBoard[row - 1][col] === 0) ||
-               (gameBoard[row + 1][col] === 0) ||
-               (gameBoard[row][col - 1] === 0) ||
-               (gameBoard[row][col + 1] === 0);
-    } catch (ex) {
-        try {
-            return (gameBoard[row - 1][col] === 0) ||
-                   (gameBoard[row][col - 1] === 0) ||
-                   (gameBoard[row][col + 1] === 0);
-        } catch (ex) {
-            return (gameBoard[row + 1][col] === 0) ||
-                   (gameBoard[row][col - 1] === 0) ||
-                   (gameBoard[row][col + 1] === 0);
-        }
-    }
+    return ((row === (zeroRow + 1) && col === zeroCol) ||
+            (row === (zeroRow - 1) && col === zeroCol) ||
+            (row === zeroRow && col === (zeroCol + 1)) ||
+            (row === zeroRow && col === (zeroCol - 1)));
 }
 
 function swapEmptyCell(row, col) {
-    for (var i = 0; i < gameBoard.length; i++) {
-        for (var j = 0; j < gameBoard[i].length; j++) {
-            if (gameBoard[i][j] === 0) {
-                gameBoard[i][j] = gameBoard[row][col];
-                gameBoard[row][col] = 0;
+    gameBoard[zeroRow][zeroCol] = gameBoard[row][col];
+    gameBoard[row][col] = 0;
+    zeroRow = row;
+    zeroCol = col;
 
-                refreshGameBoard();
-                return;
-            }
-        }
-    }
+    refreshGameBoard();
 }
 
 function checkRegexp(o, regexp, n) {
@@ -165,4 +152,16 @@ function submitScore(name) {
              "startingPosition": $.param(startingPosition),
              "moves": moves
            });
+}
+
+function findZeroElement() {
+    for (var row = 0; row < gameBoard.length; row++) {
+        for (var col = 0; col < gameBoard[row].length; col++) {
+            if (gameBoard[row][col] === 0) {
+                zeroRow = row;
+                zeroCol = col;
+                return;
+            }
+        }
+    }
 }
