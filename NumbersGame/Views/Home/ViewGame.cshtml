@@ -1,12 +1,12 @@
-﻿@model NumbersGame.Models.Game
+﻿@model string
 
 @{
-    ViewBag.Title = "Numbers Game - " + Model.GameId;
+    ViewBag.Title = "Numbers Game - View Game";
 }
 
 <div id="game">
     <h1>Numbers Game</h1>
-    <h2>Player: @Model.Name</h2>
+    <h2>Player: </h2>
     <div class="game-board">
         <table class="game-board-table">
             <tr class="row-a">
@@ -28,25 +28,25 @@
         <p>Moves: <span class="move-count"></span></p>
     </div>
     <div class="view-controls">
-        <button class="link-button">|&lt;</button>
-        <button class="link-button">&lt;&lt;</button>
-        <button class="link-button">&gt;&gt;</button>
-        <button class="link-button">&gt;|</button>
+        <button class="link-button start">|&lt;</button>
+        <button class="link-button back">&lt;&lt;</button>
+        <button class="link-button forward">&gt;&gt;</button>
+        <button class="link-button end">&gt;|</button>
     </div>
     <div class="controls">
         @Html.ActionLink("New Game", "Game", "Home", null, new { @class = "link-button", @style = "margin-right: 10px;" })
         @Html.ActionLink("High Scores", "HighScores", "Home", null, new { @class = "link-button" })
     </div>
 
-    <div id="dialog-form" title="Submit Score">
-        <form id="score-form"  name="score" method="post" action="@Url.Action("SubmitScore")">
-            <label for="name">Name</label>
-            <input type="text" name="name" id="name" class="text ui-widget-content ui-corner-all" />
-            <input type="hidden" name="startingPosition" />
-            <input type="hidden" name="moves" />
-            <p class="validateTips" style="color: Red;"></p>
-        </form>
-    </div>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/numbers-game-core.js")"></script>
 
-    <script type="text/javascript" src="@Url.Content("~/Scripts/numbers-game.js")"></script>
+    <script type="text/javascript">
+        console.log(@(Html.Raw(Model)));
+        startingPosition = @(Html.Raw(Model)).StartingPosition;
+        moves = @(Html.Raw(Model)).Moves;
+        @*startingPosition = @(Html.Raw(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(Model.StartingPosition)));
+        moves = @(Html.Raw(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(Model.Moves)));*@
+    </script>
+
+    <script type="text/javascript" src="@Url.Content("~/Scripts/numbers-game-viewer.js")"></script>
 </div>

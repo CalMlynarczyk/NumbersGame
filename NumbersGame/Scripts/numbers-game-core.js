@@ -1,6 +1,8 @@
-﻿gameBoard = []
+﻿gameBoard = [];
+startingPosition = [];
 moves = [];
-
+zeroRow = -1;
+zeroCol = -1;
 
 // Function Definitions
 
@@ -11,7 +13,7 @@ function refreshGameBoard() {
         return (value != 0 ? value : "");
     });
 
-    $('.move-count').text(moveCount);
+    $('.move-count').text(moves.length);
 }
 
 function isGameStarted() {
@@ -40,35 +42,59 @@ function areArraysEqual(a, b) {
 }
 
 function checkAdjacentCells(row, col) {
-    try {
-        return (gameBoard[row - 1][col] === 0) ||
-               (gameBoard[row + 1][col] === 0) ||
-               (gameBoard[row][col - 1] === 0) ||
-               (gameBoard[row][col + 1] === 0);
-    } catch (ex) {
-        try {
-            return (gameBoard[row - 1][col] === 0) ||
-                   (gameBoard[row][col - 1] === 0) ||
-                   (gameBoard[row][col + 1] === 0);
-        } catch (ex) {
-            return (gameBoard[row + 1][col] === 0) ||
-                   (gameBoard[row][col - 1] === 0) ||
-                   (gameBoard[row][col + 1] === 0);
-        }
-    }
+    return ((row === (zeroRow + 1) && col === zeroCol) ||
+            (row === (zeroRow - 1) && col === zeroCol) ||
+            (row === zeroRow && col === (zeroCol + 1)) ||
+            (row === zeroRow && col === (zeroCol - 1)));
 }
 
 function swapEmptyCell(row, col) {
-    for (var i = 0; i < gameBoard.length; i++) {
-        for (var j = 0; j < gameBoard[i].length; j++) {
-            if (gameBoard[i][j] === 0) {
-                gameBoard[i][j] = gameBoard[row][col];
-                gameBoard[row][col] = 0;
-                refreshGameBoard();
+    var value = gameBoard[zeroRow][zeroCol];
+    gameBoard[zeroRow][zeroCol] = gameBoard[row][col];
+    gameBoard[row][col] = value;
+
+    if (value === 0) {
+        zeroRow = row;
+        zeroCol = col;
+    }
+
+    refreshGameBoard();
+}
+
+function findZeroElement() {
+    for (var row = 0; row < gameBoard.length; row++) {
+        for (var col = 0; col < gameBoard[row].length; col++) {
+            if (gameBoard[row][col] === 0) {
+                zeroRow = row;
+                zeroCol = col;
                 return;
             }
         }
     }
+}
 
-    
+function areArraysEqual(a, b) {
+    for (var i = 0; i < a.length; i++) {
+        for (var j = 0; j < a[i].length; j++) {
+            if (a[i][j] !== b[i][j]) {
+                return false;
+            }
+        }
+    }
+
+    return true;
+}
+
+function copyArray(arr) {
+    var newArr = [[0, 0, 0],
+                  [0, 0, 0],
+                  [0, 0, 0]];
+
+    for (var i = 0; i < arr.length; i++) {
+        for (var j = 0; j < arr[i].length; j++) {
+            newArr[i][j] = arr[i][j];
+        }
+    }
+
+    return newArr;
 }

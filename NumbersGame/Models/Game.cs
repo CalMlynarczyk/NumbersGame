@@ -36,46 +36,62 @@ namespace NumbersGame.Models
 
         public bool IsValid()
         {
-            // TODO: Implement
-            /*string[] sp = StartingPosition.Split(',');
-            List<int[]> startingPos = new List<int[]>();
+            int[,] gameBoard = ParseStartingPosition(StartingPosition);
+            int zeroRow = -1;
+            int zeroCol = -1;
 
-            if (sp.Length != 9) { return false; }
+            if (IsGameFinished(gameBoard)) { return false; }
 
-            for (int i = 0; i < sp.Length; i += 3)
+            var rowLowerLimit = gameBoard.GetLowerBound(0);
+            var rowUpperLimit = gameBoard.GetUpperBound(0);
+
+            var colLowerLimit = gameBoard.GetLowerBound(1);
+            var colUpperLimit = gameBoard.GetUpperBound(1);
+
+            for (int row = rowLowerLimit; row <= rowUpperLimit && zeroRow < 0; row++)
             {
-                try
+                for (int col = colLowerLimit; col <= colUpperLimit && zeroRow < 0; col++)
                 {
-                    startingPos.Add(new int[] { int.Parse(sp[i]), int.Parse(sp[i + 1]), int.Parse(sp[i + 2]) });
-                }
-                catch (Exception)
-                {
-                    return false;
+                    if (gameBoard[row, col] == 0)
+                    {
+                        zeroRow = row;
+                        zeroCol = col;
+                    }
                 }
             }
 
-            string[] mvs = Moves.Split(',');
-            List<int[]> moveArr = new List<int[]>();
+            if (zeroRow < 0 || zeroCol < 0) { return false; }
 
-            if (mvs.Length % 2 != 0) { return false; }
-
-            for (int i = 0; i < mvs.Length; i += 2)
+            foreach (var move in Moves)
             {
-                try
+                if (gameBoard[move.Row, move.Column] == 0 ||
+                    move.Row < 0 || move.Row > (_boardSize - 1) ||
+                    move.Column < 0 || move.Column > (_boardSize - 1)) 
+                { return false; }
+
+                if ((move.Row == (zeroRow + 1) && move.Column == zeroCol) ||
+                    (move.Row == (zeroRow - 1) && move.Column == zeroCol) ||
+                    (move.Row == zeroRow && move.Column == (zeroCol + 1)) ||
+                    (move.Row == zeroRow && move.Column == (zeroCol - 1)))
                 {
-                    int row = int.Parse(mvs[i]);
-                    int col = int.Parse(mvs[i + 1]);
-                    moveArr.Add(new int[] { row, col });
+                    gameBoard[zeroRow, zeroCol] = gameBoard[move.Row, move.Column];
+                    gameBoard[move.Row, move.Column] = 0;
+                    zeroRow = move.Row;
+                    zeroCol = move.Column;
                 }
-                catch (Exception)
-                {
-                    return false;
-                }
-            }*/
+                else { return false; }
+            }
 
+            return IsGameFinished(gameBoard);
+        }
 
+        private bool IsGameFinished(int[,] gameBoard)
+        {
+            int[,] goalArray = new int[,] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 0 } };
 
-            return true;
+            bool finished = AreArraysEqual(goalArray, gameBoard);
+
+            return finished;
         }
 
         private int[,] ParseStartingPosition(string startingPosition)
@@ -132,6 +148,28 @@ namespace NumbersGame.Models
             }
 
             return moveArr;
+        }
+
+        private bool AreArraysEqual(int[,] a, int[,] b)
+        {
+            var rowLowerLimit = a.GetLowerBound(0);
+            var rowUpperLimit = a.GetUpperBound(0);
+
+            var colLowerLimit = a.GetLowerBound(1);
+            var colUpperLimit = a.GetUpperBound(1);
+
+            for (int row = rowLowerLimit; row <= rowUpperLimit; row++)
+            {
+                for (int col = colLowerLimit; col <= colUpperLimit; col++)
+                {
+                    if (a[row, col] != b[row, col])
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
         }
     }
 }

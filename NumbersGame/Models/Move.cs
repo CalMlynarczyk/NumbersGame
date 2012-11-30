@@ -1,4 +1,6 @@
-﻿namespace NumbersGame.Models
+﻿using System.Web.Script.Serialization;
+
+namespace NumbersGame.Models
 {
     public class Move
     {
