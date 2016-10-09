@@ -1,2 +1,2 @@
 # NumbersGame
-This is a test.
+Play the game.
